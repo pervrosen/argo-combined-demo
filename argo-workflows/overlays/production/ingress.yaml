@@ -18,4 +18,5 @@ spec:
            name: argo-server
            port:
              number: 2746
-    host: argo-workflows.172.18.255.200.nip.io
+    host: argo-workflows.172.18.255.201.nip.io
+
