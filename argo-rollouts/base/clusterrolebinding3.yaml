@@ -1,0 +1,48 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: argo-rollouts-aggregate-to-admin
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-admin: "true"
+    app.kubernetes.io/component: aggregate-cluster-role
+    app.kubernetes.io/name:  argo-rollouts-aggregate-to-admin
+    app.kubernetes.io/part-of: argo-rollouts
+rules:
+- apiGroups:
+  - argoproj.io
+  resources:
+  - rollouts
+  - rollouts/scale
+  - rollouts/status
+  - experiments
+  - analysistemplates
+  - clusteranalysistemplates
+  - analysisruns
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: argo-rollouts-clusterrolebinding-admin
+  labels:
+    app.kubernetes.io/component: rollouts-controller
+    app.kubernetes.io/name: argo-rollouts-clusterrolebinding
+    app.kubernetes.io/part-of: argo-rollouts
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: argo-rollouts-aggregate-to-admin
+subjects:
+- kind: ServiceAccount
+  name: argo-rollouts
+  namespace: argo-rollouts
